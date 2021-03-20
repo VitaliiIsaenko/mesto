@@ -19,3 +19,10 @@
 .edit-form__close:focus {
     outline: 0;
 }
+
+@media screen and (max-width:767px) {
+    .edit-form__close {
+        top: -53px;
+        right: 0;
+    }
+}

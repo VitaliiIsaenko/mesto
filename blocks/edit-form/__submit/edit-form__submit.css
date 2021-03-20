@@ -11,6 +11,7 @@
     text-align: center;
     border: 1px #000;
     border-radius: 2px;
+    padding: 0;
 }
 
 .edit-form__submit:hover {
@@ -19,4 +20,12 @@
 
 .edit-form__submit:focus {
     outline: 0;
+}
+
+@media screen and (max-width:767px) {
+    .edit-form__submit {
+        margin-top: 45px;
+        font-size: 14px;
+        line-height: 1.2;
+    }
 }
