@@ -1,4 +1,4 @@
-.edit-form__submit {
+.popup__submit {
     margin-top: 50px;
     background: #000;
     height: 50px;
@@ -14,16 +14,16 @@
     padding: 0;
 }
 
-.edit-form__submit:hover {
+.popup__submit:hover {
     cursor: pointer;
 }
 
-.edit-form__submit:focus {
+.popup__submit:focus {
     outline: 0;
 }
 
 @media screen and (max-width:767px) {
-    .edit-form__submit {
+    .popup__submit {
         margin-top: 45px;
         font-size: 14px;
         line-height: 1.2;

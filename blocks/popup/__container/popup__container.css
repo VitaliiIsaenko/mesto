@@ -1,4 +1,4 @@
-.edit-form {
+.popup__popup-container {
     position: fixed;
     top: 195px;
     display: flex;
@@ -12,11 +12,10 @@
     padding: 35px;
     box-sizing: border-box;
     z-index: 1;
-    display: none;
 }
 
 @media screen and (max-width:767px) {
-    .edit-form {
+    .popup__popup-container {
         left: calc((100% - 282px) / 2);
         top: calc((100% - 322px) / 2);
         width: 282px;
