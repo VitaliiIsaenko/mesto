@@ -42,3 +42,17 @@
 
 @import url(../blocks/footer/footer.css);
 @import url(../blocks/footer/__copy/footer__copy.css);
+
+/* edit form */
+
+@import url(../blocks/edit-form/edit-form.css);
+@import url(../blocks/edit-form/__close/edit-form__close.css);
+@import url(../blocks/edit-form/__input/edit-form__input.css);
+@import url(../blocks/edit-form/__name/edit-form__name.css);
+@import url(../blocks/edit-form/__submit/edit-form__submit.css);
+@import url(../blocks/edit-form/__title/edit-form__title.css);
+
+/* overlay */
+
+@import url(../blocks/overlay/overlay.css);
+@import url(../blocks/overlay/_visible/overlay_visible.css);

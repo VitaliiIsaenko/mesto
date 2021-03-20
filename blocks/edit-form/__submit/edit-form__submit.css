@@ -1,0 +1,22 @@
+.edit-form__submit {
+    margin-top: 50px;
+    background: #000;
+    height: 50px;
+    color: #fff;
+    font-family: Inter, 'Arial', 'Helvetica', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 1.22;
+    text-align: center;
+    border: 1px #000;
+    border-radius: 2px;
+}
+
+.edit-form__submit:hover {
+    cursor: pointer;
+}
+
+.edit-form__submit:focus {
+    outline: 0;
+}

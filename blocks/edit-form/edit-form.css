@@ -1,0 +1,16 @@
+.edit-form {
+    position: fixed;
+    top: 195px;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    border-radius: 10px;
+    width: 430px;
+    height: 330px;
+    left: calc((100% - 430px) / 2);
+    top: calc((100% - 330px) / 2);
+    padding: 35px;
+    box-sizing: border-box;
+    z-index: 1;
+    display: none;
+}
