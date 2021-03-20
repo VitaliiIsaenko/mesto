@@ -1,6 +1,5 @@
 .popup__popup-container {
     position: fixed;
-    top: 195px;
     display: flex;
     flex-direction: column;
     background-color: #fff;
