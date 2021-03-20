@@ -28,3 +28,17 @@
 @import url(../blocks/profile/__name/profile__name.css);
 @import url(../blocks/profile/__header/profile__header.css);
 @import url(../blocks/profile/__avatar/profile__avatar.css);
+
+/* pictures */
+
+@import url(../blocks/pictures/pictures.css);
+@import url(../blocks/pictures/__item/pictures__item.css);
+@import url(../blocks/pictures/__item-info/pictures__item-info.css);
+@import url(../blocks/pictures/__item-like/pictures__item-like.css);
+@import url(../blocks/pictures/__item-name/pictures__item-name.css);
+@import url(../blocks/pictures/__item-photo/pictures__item-photo.css);
+
+/* footer */
+
+@import url(../blocks/footer/footer.css);
+@import url(../blocks/footer/__copy/footer__copy.css);

@@ -1,0 +1,22 @@
+.pictures__item-like {
+    background: .0;
+    background-image: url(../../../images/like.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    border: 0;
+    width: 22px;
+    height: 19px;
+}
+
+.pictures__item-like:hover {
+    opacity: 0.6;
+    cursor: pointer;
+}
+
+.pictures__item-like:focus {
+    outline: 0;
+}
+
+.pictures__item-like:active {
+    background-image: url(../../../images/like-active.svg);
+}
