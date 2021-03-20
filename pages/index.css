@@ -32,6 +32,7 @@
 /* pictures */
 
 @import url(../blocks/pictures/pictures.css);
+@import url(../blocks/pictures/__list/pictures__list.css);
 @import url(../blocks/pictures/__item/pictures__item.css);
 @import url(../blocks/pictures/__item-info/pictures__item-info.css);
 @import url(../blocks/pictures/__item-like/pictures__item-like.css);
