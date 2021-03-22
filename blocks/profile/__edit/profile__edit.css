@@ -1,11 +1,12 @@
 .profile__edit {
     background: .0;
     border: solid 1px #fff;
-    width: 24px;
-    height: 24px;
+    min-width: 24px;
+    min-height: 24px;
     background-image: url(../../../images/edit.svg);
     background-position: center;
     background-repeat: no-repeat;
+    padding: 0;
 }
 
 .profile__edit:hover {
@@ -15,4 +16,11 @@
 
 .profile__edit:focus {
     outline: 0;
+}
+
+@media screen and (max-width:767px) {
+    .profile__edit {
+        min-width: 18px;
+        min-height: 18px;
+    }
 }

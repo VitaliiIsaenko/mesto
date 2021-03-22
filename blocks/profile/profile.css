@@ -1,6 +1,7 @@
 .profile {
     align-items: center;
     display: flex;
+    box-sizing: border-box;
     padding-top: 40px;
 }
 

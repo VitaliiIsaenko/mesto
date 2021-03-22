@@ -1,1 +1,5 @@
-.pictures__item-photo {}
+.pictures__item-photo {
+    width: 282px;
+    height: 282px;
+    object-fit: contain;
+}

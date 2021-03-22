@@ -16,6 +16,7 @@
 
 .popup__submit:hover {
     cursor: pointer;
+    opacity: .8;
 }
 
 .popup__submit:focus {
@@ -27,5 +28,6 @@
         margin-top: 45px;
         font-size: 14px;
         line-height: 1.2;
+        height: 46px;
     }
 }
