@@ -1,4 +1,4 @@
-.pictures__close {
+.pictures__item-remove {
     position: absolute;
     top: 18px;
     right: 15px;
@@ -13,11 +13,11 @@
     transition: .3s;
 }
 
-.pictures__close:hover {
+.pictures__item-remove:hover {
     opacity: 0.6;
     cursor: pointer;
 }
 
-.pictures__close:focus {
+.pictures__item-remove:focus {
     outline: 0;
 }

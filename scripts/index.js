@@ -19,6 +19,9 @@ const cardCloseButton = cardPopup.querySelector('.popup__close');
 const cardNameInput = cardForm.querySelector('.form__input_type_name');
 const cardPictureLinkInput = cardForm.querySelector('.form__input_type_picture-link');
 
+const picturePopup = document.querySelector('.popup_type_picture');
+const pictureCloseButton = picturePopup.querySelector('.popup__close');
+
 const pictureTemplate = document.querySelector('#picture-template').content;
 const pictureList = document.querySelector('.pictures__list');
 
@@ -30,7 +33,13 @@ function createCard(name, photoLink) {
     pictureName.textContent = name;
 
     const likeButton = pictureCopy.querySelector('.pictures__item-like');
-    likeButton.addEventListener('click', (evt) => evt.target.classList.toggle('pictures__item-like_active'));
+    likeButton.addEventListener('click', evt => evt.target.classList.toggle('pictures__item-like_active'));
+
+    const trashButton = pictureCopy.querySelector('.pictures__item-remove');
+    trashButton.addEventListener('click', evt => evt.target.closest('.pictures__item').remove());
+
+    const image = pictureCopy.querySelector('.pictures__item-photo');
+    image.addEventListener('click', evt => openPicturePopup(evt.target.closest('.pictures__item')));
 
     return pictureCopy;
 }
@@ -71,6 +80,19 @@ function closeCardPopup() {
     cardNameInput.value = '';
     cardPictureLinkInput.value = '';
     cardPopup.classList.remove('popup_opened');
+}
+
+function openPicturePopup(pictureItem) {
+    const popupImage = picturePopup.querySelector('.popup__image');
+    popupImage.src = pictureItem.querySelector('.pictures__item-photo').src;
+    const popupCaption = picturePopup.querySelector('.popup__image-caption');
+    popupCaption.textContent = pictureItem.querySelector('.pictures__item-name').textContent;
+
+    picturePopup.classList.add('popup_opened');
+}
+
+function closePicturePopup() {
+    picturePopup.classList.remove('popup_opened');
 }
 
 function initializeCards() {
@@ -115,5 +137,6 @@ cardForm.addEventListener('submit', cardFormSubmitHandler);
 cardAddButton.addEventListener('click', openCardPopup);
 cardCloseButton.addEventListener('click', closeCardPopup);
 
+pictureCloseButton.addEventListener('click', closePicturePopup);
 
 initializeCards();

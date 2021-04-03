@@ -40,7 +40,7 @@
 @import url(../blocks/pictures/__item-like/_active/pictures__item-like_active.css);
 @import url(../blocks/pictures/__item-name/pictures__item-name.css);
 @import url(../blocks/pictures/__item-photo/pictures__item-photo.css);
-@import url(../blocks/pictures/__close/pictures__close.css);
+@import url(../blocks/pictures/__item-remove/pictures__item-remove.css);
 
 /* footer */
 
@@ -54,6 +54,9 @@
 @import url(../blocks/popup/__container/popup__container.css);
 @import url(../blocks/popup/__title/popup__title.css);
 @import url(../blocks/popup/_opened/popup_opened.css);
+@import url(../blocks/popup/__picture/popup__picture.css);
+@import url(../blocks/popup/__image/popup__image.css);
+@import url(../blocks/popup/image-caption/popup__image-caption.css);
 
 /* form */
 
