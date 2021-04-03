@@ -10,7 +10,7 @@
     top: -40px;
     right: -40px;
     padding: 0;
-    transition: 0.3s;
+    transition: .3s;
 }
 
 .popup__close:hover {
