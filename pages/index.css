@@ -37,6 +37,7 @@
 @import url(../blocks/pictures/__item/pictures__item.css);
 @import url(../blocks/pictures/__item-info/pictures__item-info.css);
 @import url(../blocks/pictures/__item-like/pictures__item-like.css);
+@import url(../blocks/pictures/__item-like/_active/pictures__item-like_active.css);
 @import url(../blocks/pictures/__item-name/pictures__item-name.css);
 @import url(../blocks/pictures/__item-photo/pictures__item-photo.css);
 

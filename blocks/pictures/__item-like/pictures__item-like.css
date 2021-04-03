@@ -18,6 +18,7 @@
     outline: 0;
 }
 
-.pictures__item-like:active {
+
+/* .pictures__item-like:active {
     background-image: url(../../../images/like-active.svg);
-}
+} */
