@@ -1,8 +1,6 @@
 .pictures__item-info {
     height: 79px;
     background-color: #fff;
-    border-bottom-right-radius: 10px;
-    border-bottom-left-radius: 10px;
     display: flex;
     justify-content: space-between;
     padding: 0 15px 0 21px;
