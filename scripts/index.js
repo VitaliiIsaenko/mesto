@@ -1,3 +1,29 @@
+const initialCards = [{
+        name: 'Архыз',
+        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+    },
+    {
+        name: 'Челябинская область',
+        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+    },
+    {
+        name: 'Иваново',
+        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+    },
+    {
+        name: 'Камчатка',
+        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+    },
+    {
+        name: 'Холмогорский район',
+        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+    },
+    {
+        name: 'Байкал',
+        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+    }
+];
+
 const profile = document.querySelector('.profile');
 const profileEditButton = profile.querySelector('.profile__edit');
 const profileName = profile.querySelector('.profile__name');
@@ -30,6 +56,7 @@ function createCard(name, photoLink) {
     const picturePhoto = pictureCopy.querySelector('.pictures__item-photo');
     const pictureName = pictureCopy.querySelector('.pictures__item-name');
     picturePhoto.src = photoLink;
+    picturePhoto.alt = name;
     pictureName.textContent = name;
 
     const likeButton = pictureCopy.querySelector('.pictures__item-like');
@@ -39,7 +66,12 @@ function createCard(name, photoLink) {
     trashButton.addEventListener('click', evt => evt.target.closest('.pictures__item').remove());
 
     const image = pictureCopy.querySelector('.pictures__item-photo');
-    image.addEventListener('click', evt => openPicturePopup(evt.target.closest('.pictures__item')));
+    image.addEventListener('click', evt => {
+        const pictureItem = evt.target.closest('.pictures__item');
+        const link = pictureItem.querySelector('.pictures__item-photo').src;
+        const name = pictureItem.querySelector('.pictures__item-name').textContent;
+        openPicturePopup(name, link);
+    });
 
     return pictureCopy;
 }
@@ -50,17 +82,17 @@ function profileFormSubmitHandler(evt) {
     profileName.textContent = profileNameInput.value;
     profileJob.textContent = profileJobInput.value;
 
-    closeProfilePopup();
+    closePopup(profilePopup);
 }
 
-function openProfilePopup() {
-    profileNameInput.value = profileName.textContent;
-    profileJobInput.value = profileJob.textContent;
-    profilePopup.classList.add('popup_opened');
+function openProfilePopup(profileName, profileJob) {
+    profileNameInput.value = profileName;
+    profileJobInput.value = profileJob;
+    openPopup(profilePopup);
 }
 
-function closeProfilePopup() {
-    profilePopup.classList.remove('popup_opened');
+function openPopup(popup) {
+    popup.classList.add('popup_opened');
 }
 
 function cardFormSubmitHandler(evt) {
@@ -72,71 +104,41 @@ function cardFormSubmitHandler(evt) {
     closeCardPopup();
 }
 
-function openCardPopup() {
-    cardPopup.classList.add('popup_opened');
-}
-
 function closeCardPopup() {
-    cardNameInput.value = '';
-    cardPictureLinkInput.value = '';
-    cardPopup.classList.remove('popup_opened');
+    cardForm.reset();
+    closePopup(cardPopup);
 }
 
-function openPicturePopup(pictureItem) {
-    const popupImage = picturePopup.querySelector('.popup__image');
-    popupImage.src = pictureItem.querySelector('.pictures__item-photo').src;
+function openPicturePopup(name, link) {
     const popupCaption = picturePopup.querySelector('.popup__image-caption');
-    popupCaption.textContent = pictureItem.querySelector('.pictures__item-name').textContent;
+    popupCaption.textContent = name;
+    const popupImage = picturePopup.querySelector('.popup__image');
+    popupImage.src = link;
+    popupImage.alt = name;
 
-    picturePopup.classList.add('popup_opened');
+    openPopup(picturePopup);
 }
 
-function closePicturePopup() {
-    picturePopup.classList.remove('popup_opened');
+function closePopup(popup) {
+    popup.classList.remove('popup_opened');
 }
 
 function initializeCards() {
-    const cards = [];
+    // почему-то я думал, что вариант с созданием массива и использованием append() на
+    // массиве элементов будет эффективнее, так как перерисовка будет происходить 1 раз, а не каждый раз в цикле
     initialCards.forEach(el => {
-        cards.push(createCard(el.name, el.link));
+        pictureList.append(createCard(el.name, el.link));
     });
-    pictureList.append(...cards);
 }
 
-const initialCards = [{
-        name: 'Архыз',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-    },
-    {
-        name: 'Челябинская область',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-    },
-    {
-        name: 'Иваново',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-    },
-    {
-        name: 'Камчатка',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-    },
-    {
-        name: 'Холмогорский район',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-    },
-    {
-        name: 'Байкал',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-    }
-];
-
 profileForm.addEventListener('submit', profileFormSubmitHandler);
-profileEditButton.addEventListener('click', openProfilePopup);
-profileCloseButton.addEventListener('click', closeProfilePopup);
+profileEditButton.addEventListener('click', evt => openProfilePopup(profileName.textContent, profileJob.textContent));
+profileCloseButton.addEventListener('click', _ => closePopup(profilePopup));
 
 cardForm.addEventListener('submit', cardFormSubmitHandler);
-cardAddButton.addEventListener('click', openCardPopup);
+cardAddButton.addEventListener('click', _ => openPopup(cardPopup));
 cardCloseButton.addEventListener('click', closeCardPopup);
 
-pictureCloseButton.addEventListener('click', closePicturePopup);
+pictureCloseButton.addEventListener('click', _ => closePopup(picturePopup));
 
 initializeCards();
