@@ -51,8 +51,7 @@ const cardForm = cardPopup.querySelector('.form');
 
 const cardCloseButton = cardPopup.querySelector('.popup__close');
 
-
-
+// Popups
 function openPopup(popup) {
     popup.classList.add('popup_opened');
 }
@@ -122,19 +121,14 @@ function createCard(name, photoLink) {
     trashButton.addEventListener('click', evt => evt.target.closest('.pictures__item').remove());
 
     const image = pictureCopy.querySelector('.pictures__item-photo');
-    image.addEventListener('click', evt => {
-        const pictureItem = evt.target.closest('.pictures__item');
-        const link = pictureItem.querySelector('.pictures__item-photo').src;
-        const name = pictureItem.querySelector('.pictures__item-name').textContent;
-        openPicturePopup(name, link);
+    image.addEventListener('click', () => {
+        openPicturePopup(name, photoLink);
     });
 
     return pictureCopy;
 }
 
 function initializeCards() {
-    // я думал, что вариант с созданием массива и использованием append() на массиве элементов будет эффективнее, 
-    // так как перерисовка будет происходить 1 раз, а не каждый раз в цикле
     initialCards.forEach(el => {
         pictureList.append(createCard(el.name, el.link));
     });
@@ -142,15 +136,15 @@ function initializeCards() {
 
 // Profile
 profileForm.addEventListener('submit', profileFormSubmitHandler);
-profileEditButton.addEventListener('click', evt => openProfilePopup(profileName.textContent, profileJob.textContent));
-profileCloseButton.addEventListener('click', _ => closePopup(profilePopup));
+profileEditButton.addEventListener('click', () => openProfilePopup(profileName.textContent, profileJob.textContent));
+profileCloseButton.addEventListener('click', () => closePopup(profilePopup));
 
 // Pictures
-pictureCloseButton.addEventListener('click', _ => closePopup(picturePopup));
+pictureCloseButton.addEventListener('click', () => closePopup(picturePopup));
 
 // Cards
 cardForm.addEventListener('submit', cardFormSubmitHandler);
-cardAddButton.addEventListener('click', _ => openPopup(cardPopup));
+cardAddButton.addEventListener('click', () => openPopup(cardPopup));
 cardCloseButton.addEventListener('click', closeCardPopup);
 
 initializeCards();
