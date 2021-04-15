@@ -156,6 +156,20 @@ cardForm.addEventListener('submit', cardFormSubmitHandler);
 cardAddButton.addEventListener('click', () => openPopup(cardPopup));
 cardCloseButton.addEventListener('click', closeCardPopup);
 
+// Popups
+Array.from(document.querySelectorAll('.popup')).forEach(function(popup) {
+    popup.addEventListener('click', function(evt) {
+        if (evt.target === popup) {
+            closePopup(popup);
+        }
+    });
+    document.addEventListener('keydown', function(evt) {
+        if (evt.key === 'Escape') {
+            closePopup(popup);
+        }
+    });
+});
+
 initializeCards();
 
 enableValidation({
