@@ -45,18 +45,15 @@ function enableValidation(settings) {
 };
 
 function hasInvalidInput(inputList) {
-    return inputList.some(i => {
-        if (!i.validity.valid) {
-            console.log(i.validity);
-        }
-        return !i.validity.valid;
-    });
+    return inputList.some(i => !i.validity.valid);
 }
 
 function toggleButtonState(inputList, buttonElement, settings) {
     if (hasInvalidInput(inputList)) {
+        buttonElement.setAttribute('disabled', true);
         buttonElement.classList.add(settings.inactiveButtonClass);
     } else {
+        buttonElement.removeAttribute('disabled');
         buttonElement.classList.remove(settings.inactiveButtonClass);
     }
 }
