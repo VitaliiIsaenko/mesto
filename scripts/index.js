@@ -168,7 +168,6 @@ cardCloseButton.addEventListener('click', closeCardPopup);
 // Popups
 Array.from(document.querySelectorAll('.popup')).forEach(function(popup) {
     popup.addEventListener('click', function(evt) {
-        console.log('hey');
         if (evt.target === popup) {
             closePopup(popup);
         }
