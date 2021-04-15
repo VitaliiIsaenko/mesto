@@ -57,10 +57,19 @@ const cardCloseButton = cardPopup.querySelector('.popup__close');
 // Popups
 function openPopup(popup) {
     popup.classList.add('popup_opened');
+    document.openedPopup = popup;
+    document.addEventListener('keydown', closePopupOnEscape);
 }
 
 function closePopup(popup) {
     popup.classList.remove('popup_opened');
+    document.removeEventListener('keydown', closePopupOnEscape);
+}
+
+function closePopupOnEscape(evt) {
+    if (evt.key === 'Escape') {
+        closePopup(evt.currentTarget.openedPopup);
+    }
 }
 
 // Profile
@@ -159,12 +168,8 @@ cardCloseButton.addEventListener('click', closeCardPopup);
 // Popups
 Array.from(document.querySelectorAll('.popup')).forEach(function(popup) {
     popup.addEventListener('click', function(evt) {
+        console.log('hey');
         if (evt.target === popup) {
-            closePopup(popup);
-        }
-    });
-    document.addEventListener('keydown', function(evt) {
-        if (evt.key === 'Escape') {
             closePopup(popup);
         }
     });

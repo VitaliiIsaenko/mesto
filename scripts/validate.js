@@ -31,6 +31,7 @@ function setEventListeners(formElement, settings) {
             checkInputValidity(formElement, inputElement, settings);
             toggleButtonState(inputList, buttonElement, settings);
         });
+        checkInputValidity(formElement, inputElement, settings);
     });
 };
 
