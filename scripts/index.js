@@ -75,17 +75,12 @@ function closePopupOnEscape(evt) {
 // Profile
 function openProfilePopup(profileName, profileAbout) {
     profileNameInput.value = profileName;
-    profileNameInput.dispatchEvent(new Event('input'));
-
     profileAboutInput.value = profileAbout;
-    profileAboutInput.dispatchEvent(new Event('input'));
 
     openPopup(profilePopup);
 }
 
 function profileFormSubmitHandler(evt) {
-    evt.preventDefault();
-
     profileName.textContent = profileNameInput.value;
     profileAbout.textContent = profileAboutInput.value;
 
@@ -106,20 +101,10 @@ function openPicturePopup(name, link) {
 
 // Cards
 function cardFormSubmitHandler(evt) {
-    evt.preventDefault();
-
     const card = createCard(cardNameInput.value, cardPictureLinkInput.value);
     pictureList.prepend(card);
 
-    closeCardPopup();
-}
-
-function closeCardPopup() {
     cardForm.reset();
-
-    cardNameInput.dispatchEvent(new Event('input'));
-    cardPictureLinkInput.dispatchEvent(new Event('input'));
-
     closePopup(cardPopup);
 }
 
@@ -152,6 +137,15 @@ function initializeCards() {
     });
 }
 
+enableValidation({
+    formSelector: '.form',
+    inputSelector: '.form__input',
+    submitButtonSelector: '.form__submit',
+    inactiveButtonClass: 'form__submit_inactive',
+    inputErrorClass: 'form__input_type_error',
+    errorClass: 'form__input-error_active'
+});
+
 // Profile
 profileForm.addEventListener('submit', profileFormSubmitHandler);
 profileEditButton.addEventListener('click', () => openProfilePopup(profileName.textContent, profileAbout.textContent));
@@ -163,7 +157,7 @@ pictureCloseButton.addEventListener('click', () => closePopup(picturePopup));
 // Cards
 cardForm.addEventListener('submit', cardFormSubmitHandler);
 cardAddButton.addEventListener('click', () => openPopup(cardPopup));
-cardCloseButton.addEventListener('click', closeCardPopup);
+cardCloseButton.addEventListener('click', () => closePopup(cardPopup));
 
 // Popups
 Array.from(document.querySelectorAll('.popup')).forEach(function(popup) {
@@ -175,12 +169,3 @@ Array.from(document.querySelectorAll('.popup')).forEach(function(popup) {
 });
 
 initializeCards();
-
-enableValidation({
-    formSelector: '.form',
-    inputSelector: '.form__input',
-    submitButtonSelector: '.form__submit',
-    inactiveButtonClass: 'form__submit_inactive',
-    inputErrorClass: 'form__input_type_error',
-    errorClass: 'form__input-error_active'
-});

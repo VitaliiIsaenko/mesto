@@ -20,28 +20,31 @@ function checkInputValidity(formElement, inputElement, settings) {
     }
 };
 
-function setEventListeners(formElement, settings) {
-    const inputList = Array.from(formElement.querySelectorAll(settings.inputSelector));
-    const buttonElement = formElement.querySelector(settings.submitButtonSelector);
-
-    toggleButtonState(inputList, buttonElement, settings);
-
+function setEventListeners(formElement, buttonElement, inputList, settings) {
     inputList.forEach((inputElement) => {
         inputElement.addEventListener('input', function() {
             checkInputValidity(formElement, inputElement, settings);
             toggleButtonState(inputList, buttonElement, settings);
         });
-        checkInputValidity(formElement, inputElement, settings);
     });
 };
 
 function enableValidation(settings) {
     const formList = Array.from(document.querySelectorAll(settings.formSelector));
+
     formList.forEach((formElement) => {
+        const buttonElement = formElement.querySelector(settings.submitButtonSelector);
+        const inputList = Array.from(formElement.querySelectorAll(settings.inputSelector));
+
         formElement.addEventListener('submit', function(evt) {
             evt.preventDefault();
+            toggleButtonState(inputList, buttonElement, settings);
+            inputList.forEach(inputElement => checkInputValidity(formElement, inputElement, settings));
+            if (hasInvalidInput(inputList)) {
+                evt.stopImmediatePropagation();
+            }
         });
-        setEventListeners(formElement, settings);
+        setEventListeners(formElement, buttonElement, inputList, settings);
     });
 };
 
