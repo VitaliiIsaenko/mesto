@@ -1,3 +1,5 @@
+import Card from './Card.js';
+
 const initialCards = [{
         name: 'Архыз',
         link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
@@ -101,40 +103,11 @@ function openPicturePopup(name, link) {
 
 // Cards
 function cardFormSubmitHandler(evt) {
-    const card = createCard(cardNameInput.value, cardPictureLinkInput.value);
-    pictureList.prepend(card);
+    const card = new Card({ image: cardNameInput.value, link: cardPictureLinkInput.value }, '#picture-template', () => openPicturePopup(cardNameInput.value, cardPictureLinkInput.value));
+    pictureList.prepend(card.generateCard());
 
     cardForm.reset();
     closePopup(cardPopup);
-}
-
-function createCard(name, photoLink) {
-    const pictureTemplate = document.querySelector('#picture-template').content;
-    const pictureCopy = pictureTemplate.cloneNode(true);
-    const picturePhoto = pictureCopy.querySelector('.pictures__item-photo');
-    const pictureName = pictureCopy.querySelector('.pictures__item-name');
-    picturePhoto.src = photoLink;
-    picturePhoto.alt = name;
-    pictureName.textContent = name;
-
-    const likeButton = pictureCopy.querySelector('.pictures__item-like');
-    likeButton.addEventListener('click', evt => evt.target.classList.toggle('pictures__item-like_active'));
-
-    const trashButton = pictureCopy.querySelector('.pictures__item-remove');
-    trashButton.addEventListener('click', evt => evt.target.closest('.pictures__item').remove());
-
-    const image = pictureCopy.querySelector('.pictures__item-photo');
-    image.addEventListener('click', () => {
-        openPicturePopup(name, photoLink);
-    });
-
-    return pictureCopy;
-}
-
-function initializeCards() {
-    initialCards.forEach(el => {
-        pictureList.append(createCard(el.name, el.link));
-    });
 }
 
 enableValidation({
@@ -167,5 +140,12 @@ Array.from(document.querySelectorAll('.popup')).forEach(function(popup) {
         }
     });
 });
+
+
+function initializeCards() {
+    initialCards.forEach(el => {
+        pictureList.append(new Card(el, '#picture-template', () => openPicturePopup(el.name, el.link)).generateCard());
+    });
+}
 
 initializeCards();
