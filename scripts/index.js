@@ -1,4 +1,5 @@
 import Card from './Card.js';
+import FormValidator from './FormValidator.js';
 
 const initialCards = [{
         name: 'Архыз',
@@ -110,14 +111,14 @@ function cardFormSubmitHandler(evt) {
     closePopup(cardPopup);
 }
 
-enableValidation({
+new FormValidator({
     formSelector: '.form',
     inputSelector: '.form__input',
     submitButtonSelector: '.form__submit',
     inactiveButtonClass: 'form__submit_inactive',
     inputErrorClass: 'form__input_type_error',
     errorClass: 'form__input-error_active'
-});
+}).enableValidation();
 
 // Profile
 profileForm.addEventListener('submit', profileFormSubmitHandler);
