@@ -80,6 +80,10 @@ function openProfilePopup(profileName, profileAbout) {
     profileNameInput.value = profileName;
     profileAboutInput.value = profileAbout;
 
+    profileNameInput.dispatchEvent(new Event('input'));
+    profileAboutInput.dispatchEvent(new Event('input'));
+
+
     openPopup(profilePopup);
 }
 
@@ -103,22 +107,27 @@ function openPicturePopup(name, link) {
 }
 
 // Cards
-function cardFormSubmitHandler(evt) {
-    const card = new Card({ image: cardNameInput.value, link: cardPictureLinkInput.value }, '#picture-template', () => openPicturePopup(cardNameInput.value, cardPictureLinkInput.value));
+function cardFormSubmitHandler() {
+    const card = new Card({ image: cardNameInput.value, link: cardPictureLinkInput.value }, '#picture-template',
+        () => openPicturePopup(cardNameInput.value, cardPictureLinkInput.value));
     pictureList.prepend(card.generateCard());
 
     cardForm.reset();
     closePopup(cardPopup);
 }
 
-new FormValidator({
+const formValidatorSettings = {
     formSelector: '.form',
     inputSelector: '.form__input',
     submitButtonSelector: '.form__submit',
     inactiveButtonClass: 'form__submit_inactive',
     inputErrorClass: 'form__input_type_error',
     errorClass: 'form__input-error_active'
-}).enableValidation();
+};
+
+new FormValidator(formValidatorSettings, profileForm).enableValidation();
+
+new FormValidator(formValidatorSettings, cardForm).enableValidation();
 
 // Profile
 profileForm.addEventListener('submit', profileFormSubmitHandler);
