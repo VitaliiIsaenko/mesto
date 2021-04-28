@@ -133,10 +133,10 @@ Array.from(document.querySelectorAll('.popup')).forEach(function(popup) {
     });
 });
 
-function initializeCards(cards) {
+function initializeCards(cards, container) {
     cards.forEach(el => {
-        pictureList.append(getNewCard(el.name, el.link));
+        container.append(getNewCard(el.name, el.link));
     });
 }
 
-initializeCards(InitialCards);
+initializeCards(InitialCards, pictureList);
