@@ -1,31 +1,6 @@
 import Card from './Card.js';
 import FormValidator from './FormValidator.js';
-
-const initialCards = [{
-        name: 'Архыз',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-    },
-    {
-        name: 'Челябинская область',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-    },
-    {
-        name: 'Иваново',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-    },
-    {
-        name: 'Камчатка',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-    },
-    {
-        name: 'Холмогорский район',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-    },
-    {
-        name: 'Байкал',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-    }
-];
+import InitialCards from './InitialCards.js';
 
 // Profile
 const profile = document.querySelector('.profile');
@@ -108,15 +83,17 @@ function openPicturePopup(name, link) {
 // Cards
 function cardFormSubmitHandler() {
     const card = getNewCard(cardNameInput.value, cardPictureLinkInput.value);
-    pictureList.prepend(card.generateCard());
+    pictureList.prepend(card);
 
     cardForm.reset();
+    addCardFormValidator.toggleButtonState();
+
     closePopup(cardPopup);
 }
 
 function getNewCard(name, link) {
     return new Card({ name, link }, '#picture-template',
-        () => openPicturePopup(name, link));
+        () => openPicturePopup(name, link)).generateCard();
 }
 
 const formValidatorSettings = {
@@ -128,9 +105,11 @@ const formValidatorSettings = {
     errorClass: 'form__input-error_active'
 };
 
-new FormValidator(formValidatorSettings, profileForm).enableValidation();
+const profileValidator = new FormValidator(formValidatorSettings, profileForm);
+profileValidator.enableValidation();
 
-new FormValidator(formValidatorSettings, cardForm).enableValidation();
+const addCardFormValidator = new FormValidator(formValidatorSettings, cardForm)
+addCardFormValidator.enableValidation();
 
 // Profile
 profileForm.addEventListener('submit', profileFormSubmitHandler);
@@ -154,10 +133,10 @@ Array.from(document.querySelectorAll('.popup')).forEach(function(popup) {
     });
 });
 
-function initializeCards() {
-    initialCards.forEach(el => {
-        pictureList.append(getNewCard(el.name, el.link).generateCard());
+function initializeCards(cards) {
+    cards.forEach(el => {
+        pictureList.append(getNewCard(el.name, el.link));
     });
 }
 
-initializeCards();
+initializeCards(InitialCards);
