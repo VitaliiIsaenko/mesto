@@ -20,31 +20,33 @@ export default class Card {
 
     generateCard() {
         this._element = this._getTemplate();
+        this._picturePhoto = this._element.querySelector('.pictures__item-photo');
+        this._name = this._element.querySelector('.pictures__item-name');
+        this._likeButton = this._element.querySelector('.pictures__item-like');
 
+        this._removeButton = this._element.querySelector('.pictures__item-remove');
         this._setEventListeners();
 
-        const picturePhoto = this._element.querySelector('.pictures__item-photo');
-        picturePhoto.src = this._image;
-        picturePhoto.alt = this._text;
-
-        this._element.querySelector('.pictures__item-name').textContent = this._text;
+        this._picturePhoto.src = this._image;
+        this._picturePhoto.alt = this._text;
+        this._name.textContent = this._text
 
         return this._element;
     }
 
     _setEventListeners() {
-        this._element.querySelector('.pictures__item-like')
+        this._likeButton
             .addEventListener('click', () => this._handleLikeClick());
 
-        this._element.querySelector('.pictures__item-remove')
+        this._removeButton
             .addEventListener('click', () => this._handleRemoveClick());
 
-        this._element.querySelector('.pictures__item-photo')
+        this._picturePhoto
             .addEventListener('click', () => this._handleCardClick());
     }
 
     _handleLikeClick() {
-        this._element.querySelector('.pictures__item-like').classList.toggle('pictures__item-like_active');
+        this._likeButton.classList.toggle('pictures__item-like_active');
     }
 
     _handleRemoveClick() {

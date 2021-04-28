@@ -83,7 +83,6 @@ function openProfilePopup(profileName, profileAbout) {
     profileNameInput.dispatchEvent(new Event('input'));
     profileAboutInput.dispatchEvent(new Event('input'));
 
-
     openPopup(profilePopup);
 }
 
@@ -108,12 +107,16 @@ function openPicturePopup(name, link) {
 
 // Cards
 function cardFormSubmitHandler() {
-    const card = new Card({ image: cardNameInput.value, link: cardPictureLinkInput.value }, '#picture-template',
-        () => openPicturePopup(cardNameInput.value, cardPictureLinkInput.value));
+    const card = getNewCard(cardNameInput.value, cardPictureLinkInput.value);
     pictureList.prepend(card.generateCard());
 
     cardForm.reset();
     closePopup(cardPopup);
+}
+
+function getNewCard(name, link) {
+    return new Card({ name, link }, '#picture-template',
+        () => openPicturePopup(name, link));
 }
 
 const formValidatorSettings = {
@@ -151,10 +154,9 @@ Array.from(document.querySelectorAll('.popup')).forEach(function(popup) {
     });
 });
 
-
 function initializeCards() {
     initialCards.forEach(el => {
-        pictureList.append(new Card(el, '#picture-template', () => openPicturePopup(el.name, el.link)).generateCard());
+        pictureList.append(getNewCard(el.name, el.link).generateCard());
     });
 }
 
