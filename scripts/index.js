@@ -2,6 +2,7 @@ import Card from './Card.js';
 import FormValidator from './FormValidator.js';
 import InitialCards from './InitialCards.js';
 import Section from './Section.js';
+import PopupImage from './PopupImage.js';
 
 // Profile
 const profile = document.querySelector('.profile');
@@ -31,7 +32,7 @@ const cardForm = cardPopup.querySelector('.form');
 const cardNameInput = cardForm.querySelector('.form__input_type_card-name');
 const cardPictureLinkInput = cardForm.querySelector('.form__input_type_picture-link');
 
-const cardCloseButton = cardPopup.querySelector('.popup__close');
+// const cardCloseButton = cardPopup.querySelector('.popup__close');
 
 // Popups
 function openPopup(popup) {
@@ -70,16 +71,16 @@ function profileFormSubmitHandler(evt) {
 }
 
 // Pictures
-function openPicturePopup(name, link) {
-    const popupCaption = picturePopup.querySelector('.popup__image-caption');
-    popupCaption.textContent = name;
+// function openPicturePopup(name, link) {
+//     const popupCaption = picturePopup.querySelector('.popup__image-caption');
+//     popupCaption.textContent = name;
 
-    const popupImage = picturePopup.querySelector('.popup__image');
-    popupImage.src = link;
-    popupImage.alt = name;
+//     const popupImage = picturePopup.querySelector('.popup__image');
+//     popupImage.src = link;
+//     popupImage.alt = name;
 
-    openPopup(picturePopup);
-}
+//     openPopup(picturePopup);
+// }
 
 // Cards
 function cardFormSubmitHandler() {
@@ -92,8 +93,9 @@ function cardFormSubmitHandler() {
 }
 
 function getNewCard(name, link) {
+    let popupImage = new PopupImage('.popup_type_picture', name, link);
     return new Card({ name, link }, '#picture-template',
-        () => openPicturePopup(name, link)).generateCard();
+        () => popupImage.open()).generateCard();
 }
 
 const formValidatorSettings = {
@@ -122,7 +124,7 @@ pictureCloseButton.addEventListener('click', () => closePopup(picturePopup));
 // Cards
 cardForm.addEventListener('submit', cardFormSubmitHandler);
 cardAddButton.addEventListener('click', () => openPopup(cardPopup));
-cardCloseButton.addEventListener('click', () => closePopup(cardPopup));
+// cardCloseButton.addEventListener('click', () => closePopup(cardPopup));
 
 // Popups
 Array.from(document.querySelectorAll('.popup')).forEach(function(popup) {
