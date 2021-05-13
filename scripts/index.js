@@ -4,6 +4,7 @@ import InitialCards from './InitialCards.js';
 import Section from './Section.js';
 import PopupImage from './PopupImage.js';
 import PopupWithForm from './PopupWithForm.js';
+import UserInfo from "./UserInfo.js";
 
 // Profile
 const profile = document.querySelector('.profile');
@@ -22,9 +23,7 @@ const cardAddButton = profile.querySelector('.profile__add');
 // }
 
 function profileFormSubmitHandler({ name, about }) {
-    profileName.textContent = name;
-    profileAbout.textContent = about;
-
+    userInfo.setUserInfo(name, about);
     profilePopup.close();
 }
 
@@ -34,6 +33,8 @@ function cardFormSubmitHandler({ name, link }) {
     addCardFormValidator.toggleButtonState();
     cardPopup.close();
 }
+
+const userInfo = new UserInfo('.profile__name', '.profile__about');
 
 const cardPopup = new PopupWithForm('.popup_type_add-card',
     cardFormSubmitHandler);
