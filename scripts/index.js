@@ -11,27 +11,17 @@ const profile = document.querySelector('.profile');
 const profileEditButton = profile.querySelector('.profile__edit');
 const cardAddButton = profile.querySelector('.profile__add');
 
-// Profile
-// function openProfilePopup(profileName, profileAbout) {
-//     profileNameInput.value = profileName;
-//     profileAboutInput.value = profileAbout;
-
-//     profileNameInput.dispatchEvent(new Event('input'));
-//     profileAboutInput.dispatchEvent(new Event('input'));
-
-//     openPopup(profilePopup);
-// }
-
 function profileFormSubmitHandler({ name, about }) {
     userInfo.setUserInfo(name, about);
     profilePopup.close();
+    profileValidator.toggleButtonState();
 }
 
 // Cards
 function cardFormSubmitHandler({ name, link }) {
     pictureListSection.addItem({ name: name, link: link });
-    addCardFormValidator.toggleButtonState();
     cardPopup.close();
+    addCardFormValidator.toggleButtonState();
 }
 
 const userInfo = new UserInfo('.profile__name', '.profile__about');
