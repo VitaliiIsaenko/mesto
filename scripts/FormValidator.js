@@ -38,8 +38,26 @@ export default class FormValidator {
         });
     }
 
+    revalidate() {
+        this._inputList.forEach((inputElement) => {
+            this._checkInputValidity(inputElement);
+            this.toggleButtonState(this._inputList, this._buttonElement);
+        });
+    }
+
     enableValidation() {
         this.toggleButtonState();
+
+        this._formElement.addEventListener('submit', (evt) => {
+            evt.preventDefault();
+
+            this._inputList.forEach(inputElement => this._checkInputValidity(inputElement));
+        });
+
+        this._formElement.addEventListener('reset', (evt) => {
+            this._inputList.forEach(inputElement => this._checkInputValidity(inputElement));
+        });
+
         this._setEventListeners();
     }
 

@@ -1,38 +1,28 @@
+import FormValidator from "./FormValidator.js";
 import Popup from "./Popup.js";
+import { formValidatorSettings } from "./constants.js";
 
 export default class PopupWithForm extends Popup {
     constructor(popupSelector, formSubmitHanlder) {
         super(popupSelector);
-        this.formSubmitHanlder = formSubmitHanlder;
-        this.form = this.popupElement.querySelector('.form');
+        this._formSubmitHanlder = formSubmitHanlder;
+        this._form = this._popupElement.querySelector('.form');
+        this._formValidator = new FormValidator(formValidatorSettings, this._form);
+        this._formValidator.enableValidation();
     }
 
-    setValidator(formValidator) {
-        this._formValidator = formValidator;
-    }
-
-    setValues(data) {
-        // console.log(data);
-
+    setFormValues(data) {
         Object.keys(data).forEach(key => {
-            let el = this.form.querySelector(`.form__input[name='${key}']`);
+            let el = this._form.querySelector(`.form__input[name='${key}']`);
             if (el !== undefined) {
                 el.value = data[key];
             }
         });
-        if (this._formValidator !== undefined) {
-            this._formValidator.toggleButtonState();
-        }
-        // Object.entries(data).forEach((k, v) => {
-        //     // console.log(k);
-        //     // console.log(v);
-        //     // let el = this.form.querySelector(`.form__input[name='${k}']`);
-        //     // el.value = v;
-        // });
+        this._formValidator.revalidate();
     }
 
     _getInputValues() {
-        return Array.from(this.form.querySelectorAll('.form__input'))
+        return Array.from(this._form.querySelectorAll('.form__input'))
             .reduce((prev, curr) => {
                 prev[curr.name] = curr.value;
                 return prev;
@@ -40,20 +30,16 @@ export default class PopupWithForm extends Popup {
     }
 
     setEventListeners() {
-        this.form.addEventListener('submit', (evt) => {
+        this._form.addEventListener('submit', (evt) => {
             evt.preventDefault();
-            this.formSubmitHanlder(this._getInputValues())
+            this._formSubmitHanlder(this._getInputValues())
         });
         super.setEventListeners();
     }
 
     close() {
-        this.form.reset();
-
-        if (this._formValidator !== undefined) {
-            this._formValidator.toggleButtonState();
-        }
-
+        this._form.reset();
+        this._formValidator.toggleButtonState();
         super.close();
     }
 }
