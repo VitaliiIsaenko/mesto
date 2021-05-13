@@ -1,13 +1,14 @@
 import Card from './Card.js';
-import InitialCards from './InitialCards.js';
 import Section from './Section.js';
 import PopupImage from './PopupImage.js';
 import PopupWithForm from './PopupWithForm.js';
 import UserInfo from "./UserInfo.js";
+import { initialCards } from "./constants.js";
 
 const profile = document.querySelector('.profile');
 const profileEditButton = profile.querySelector('.profile__edit');
 const cardAddButton = profile.querySelector('.profile__add');
+
 const userInfo = new UserInfo('.profile__name', '.profile__about');
 
 const cardPopup = new PopupWithForm('.popup_type_add-card', cardFormSubmitHandler);
@@ -15,6 +16,12 @@ cardPopup.setEventListeners();
 
 const profilePopup = new PopupWithForm('.popup_type_edit-profile', profileFormSubmitHandler);
 profilePopup.setEventListeners();
+
+let pictureListSection = new Section({
+    items: initialCards,
+    renderer: (el) => getNewCard(el.name, el.link)
+}, '.pictures__list ');
+pictureListSection.render();
 
 function profileFormSubmitHandler({ name, about }) {
     userInfo.setUserInfo(name, about);
@@ -41,9 +48,3 @@ profileEditButton.addEventListener('click', () => {
 });
 
 cardAddButton.addEventListener('click', () => cardPopup.open());
-
-let pictureListSection = new Section({
-    items: InitialCards,
-    renderer: (el) => getNewCard(el.name, el.link)
-}, '.pictures__list ');
-pictureListSection.render();
