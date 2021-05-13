@@ -5,10 +5,19 @@ export default class UserInfo {
     }
 
     getUserInfo() {
-        return {
-            name: this._nameElement.value,
-            about: this._aboutElement.value
+
+        let result = {
+            name: this._nameElement.textContent,
+            about: this._aboutElement.textContent
         };
+
+        // Object.entries(result)
+        // .forEach((k, v) => {
+        // console.log(k);
+        // console.log(v);
+        // });
+        return result;
+
     }
 
     setUserInfo(name, about) {

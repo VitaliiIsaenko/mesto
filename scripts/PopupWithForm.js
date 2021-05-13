@@ -7,6 +7,30 @@ export default class PopupWithForm extends Popup {
         this.form = this.popupElement.querySelector('.form');
     }
 
+    setValidator(formValidator) {
+        this._formValidator = formValidator;
+    }
+
+    setValues(data) {
+        // console.log(data);
+
+        Object.keys(data).forEach(key => {
+            let el = this.form.querySelector(`.form__input[name='${key}']`);
+            if (el !== undefined) {
+                el.value = data[key];
+            }
+        });
+        if (this._formValidator !== undefined) {
+            this._formValidator.toggleButtonState();
+        }
+        // Object.entries(data).forEach((k, v) => {
+        //     // console.log(k);
+        //     // console.log(v);
+        //     // let el = this.form.querySelector(`.form__input[name='${k}']`);
+        //     // el.value = v;
+        // });
+    }
+
     _getInputValues() {
         return Array.from(this.form.querySelectorAll('.form__input'))
             .reduce((prev, curr) => {
@@ -25,6 +49,11 @@ export default class PopupWithForm extends Popup {
 
     close() {
         this.form.reset();
+
+        if (this._formValidator !== undefined) {
+            this._formValidator.toggleButtonState();
+        }
+
         super.close();
     }
 }

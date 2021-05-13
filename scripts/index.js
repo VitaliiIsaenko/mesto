@@ -14,14 +14,12 @@ const cardAddButton = profile.querySelector('.profile__add');
 function profileFormSubmitHandler({ name, about }) {
     userInfo.setUserInfo(name, about);
     profilePopup.close();
-    profileValidator.toggleButtonState();
 }
 
 // Cards
 function cardFormSubmitHandler({ name, link }) {
     pictureListSection.addItem({ name: name, link: link });
     cardPopup.close();
-    addCardFormValidator.toggleButtonState();
 }
 
 const userInfo = new UserInfo('.profile__name', '.profile__about');
@@ -52,12 +50,17 @@ const formValidatorSettings = {
 };
 
 const profileValidator = new FormValidator(formValidatorSettings, profilePopup.form);
+profilePopup.setValidator(profileValidator);
 profileValidator.enableValidation();
 
 const addCardFormValidator = new FormValidator(formValidatorSettings, cardPopup.form)
+cardPopup.setValidator(addCardFormValidator);
 addCardFormValidator.enableValidation();
 
-profileEditButton.addEventListener('click', () => profilePopup.open());
+profileEditButton.addEventListener('click', () => {
+    profilePopup.setValues(userInfo.getUserInfo());
+    profilePopup.open()
+});
 cardAddButton.addEventListener('click', () => cardPopup.open());
 
 let pictureListSection = new Section({
