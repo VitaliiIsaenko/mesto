@@ -1,6 +1,7 @@
 import Card from './Card.js';
 import FormValidator from './FormValidator.js';
 import InitialCards from './InitialCards.js';
+import Section from './Section.js';
 
 // Profile
 const profile = document.querySelector('.profile');
@@ -82,8 +83,7 @@ function openPicturePopup(name, link) {
 
 // Cards
 function cardFormSubmitHandler() {
-    const card = getNewCard(cardNameInput.value, cardPictureLinkInput.value);
-    pictureList.prepend(card);
+    pictureListSection.addItem({ name: cardNameInput.value, link: cardPictureLinkInput.value });
 
     cardForm.reset();
     addCardFormValidator.toggleButtonState();
@@ -133,10 +133,13 @@ Array.from(document.querySelectorAll('.popup')).forEach(function(popup) {
     });
 });
 
-function initializeCards(cards, container) {
-    cards.forEach(el => {
-        container.append(getNewCard(el.name, el.link));
-    });
-}
+let pictureListSection = new Section({ items: InitialCards, renderer: (el) => getNewCard(el.name, el.link) }, pictureList);
+pictureListSection.render();
 
-initializeCards(InitialCards, pictureList);
+// function initializeCards(cards, container) {
+// cards.forEach(el => {
+// container.append(getNewCard(el.name, el.link));
+// });
+// }
+
+// initializeCards(InitialCards, pictureList);
