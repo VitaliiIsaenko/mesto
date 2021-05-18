@@ -4,6 +4,7 @@ import PopupImage from '../components/PopupImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import UserInfo from "../components/UserInfo.js";
 import { initialCards } from "../constants.js";
+import './index.css';
 
 const profile = document.querySelector('.profile');
 const profileEditButton = profile.querySelector('.profile__edit');

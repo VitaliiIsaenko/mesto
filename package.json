@@ -4,7 +4,7 @@
     "description": "Mesto is a project built for the purpose of learning web devleopment with Yandex Praktikum",
     "main": "index.js",
     "scripts": {
-        "build": "rimraf dist && webpack",
+        "build": "webpack --mode production",
         "dev": "webpack serve"
     },
     "repository": {
@@ -18,9 +18,21 @@
     },
     "homepage": "https://github.com/VitaliiIsaenko/mesto#readme",
     "devDependencies": {
-        "rimraf": "^3.0.2",
+        "@babel/core": "^7.14.3",
+        "@babel/preset-env": "^7.14.2",
+        "autoprefixer": "^10.2.5",
+        "babel-loader": "^8.2.2",
+        "clean-webpack-plugin": "*",
+        "css-loader": "^5.2.4",
+        "cssnano": "^5.0.2",
+        "html-webpack-plugin": "^5.3.1",
+        "mini-css-extract-plugin": "^1.6.0",
+        "postcss-loader": "^5.3.0",
         "webpack": "^5.37.0",
         "webpack-cli": "^4.7.0",
         "webpack-dev-server": "^3.11.2"
+    },
+    "dependencies": {
+        "core-js": "^3.12.1"
     }
 }
