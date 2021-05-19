@@ -1,9 +1,10 @@
 import Card from '../components/Card.js';
 import Section from '../components/Section.js';
-import PopupImage from '../components/PopupImage.js';
+import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import UserInfo from "../components/UserInfo.js";
-import { initialCards } from "../constants.js";
+import { initialCards, formValidatorSettings } from "../utils/constants.js";
+import FormValidator from "../components/FormValidator.js";
 import './index.css';
 
 const profile = document.querySelector('.profile');
@@ -14,9 +15,14 @@ const userInfo = new UserInfo('.profile__name', '.profile__about');
 
 const cardPopup = new PopupWithForm('.popup_type_add-card', cardFormSubmitHandler);
 cardPopup.setEventListeners();
+cardPopup.setFormValidator(new FormValidator(formValidatorSettings));
 
 const profilePopup = new PopupWithForm('.popup_type_edit-profile', profileFormSubmitHandler);
 profilePopup.setEventListeners();
+profilePopup.setFormValidator(new FormValidator(formValidatorSettings));
+
+const popupImage = new PopupWithImage('.popup_type_picture');
+popupImage.setEventListeners();
 
 let pictureListSection = new Section({
     items: initialCards,
@@ -35,11 +41,8 @@ function cardFormSubmitHandler({ name, link }) {
 }
 
 function getNewCard(name, link) {
-    let popupImage = new PopupImage('.popup_type_picture', name, link);
-    popupImage.setEventListeners();
-
     let card = new Card({ name, link }, '#picture-template',
-        () => popupImage.open()).generateCard();
+        () => popupImage.open(name, link)).generateCard();
     return card;
 }
 
