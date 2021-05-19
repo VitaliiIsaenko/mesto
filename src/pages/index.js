@@ -24,7 +24,7 @@ profilePopup.setFormValidator(new FormValidator(formValidatorSettings));
 const popupImage = new PopupWithImage('.popup_type_picture');
 popupImage.setEventListeners();
 
-let pictureListSection = new Section({
+const pictureListSection = new Section({
     items: initialCards,
     renderer: (el) => getNewCard(el.name, el.link)
 }, '.pictures__list ');
@@ -41,14 +41,13 @@ function cardFormSubmitHandler({ name, link }) {
 }
 
 function getNewCard(name, link) {
-    let card = new Card({ name, link }, '#picture-template',
+    const card = new Card({ name, link }, '#picture-template',
         () => popupImage.open(name, link)).generateCard();
     return card;
 }
 
 profileEditButton.addEventListener('click', () => {
-    profilePopup.setFormValues(userInfo.getUserInfo());
-    profilePopup.open()
+    profilePopup.open(userInfo.getUserInfo())
 });
 
 cardAddButton.addEventListener('click', () => cardPopup.open());

@@ -12,17 +12,15 @@ export default class PopupWithForm extends Popup {
         this._formValidator.enableValidation(this._form);
     }
 
-    setFormValues(data) {
+    open(data = {}) {
         Object.keys(data).forEach(key => {
-            let el = this._form.querySelector(`.form__input[name='${key}']`);
+            const el = this._form.querySelector(`.form__input[name='${key}']`);
             if (el !== undefined) {
                 el.value = data[key];
             }
         });
 
-        if (this._formValidator !== undefined) {
-            this._formValidator.revalidate();
-        }
+        super.open();
     }
 
     _getInputValues() {

@@ -18,15 +18,15 @@ export default class Card {
 
     generateCard() {
         this._element = this._getTemplate();
-        this.imageElement = this._element.querySelector('.pictures__item-photo');
+        this._imageElement = this._element.querySelector('.pictures__item-photo');
         this._nameElement = this._element.querySelector('.pictures__item-name');
         this._likeButton = this._element.querySelector('.pictures__item-like');
         this._removeButton = this._element.querySelector('.pictures__item-remove');
 
         this._setEventListeners();
 
-        this.imageElement.src = this._image;
-        this.imageElement.alt = this._text;
+        this._imageElement.src = this._image;
+        this._imageElement.alt = this._text;
         this._nameElement.textContent = this._text
 
         return this._element;
@@ -39,7 +39,7 @@ export default class Card {
         this._removeButton
             .addEventListener('click', () => this._handleRemoveClick());
 
-        this.imageElement
+        this._imageElement
             .addEventListener('click', () => this._handleCardClick());
     }
 
