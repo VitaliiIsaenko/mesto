@@ -9,7 +9,11 @@ export default class PopupWithForm extends Popup {
 
     setFormValidator(formValidator) {
         this._formValidator = formValidator;
-        this._formValidator.enableValidation(this._form);
+        this._formValidator.enableValidation();
+    }
+
+    getForm() {
+        return this._form;
     }
 
     open(data = {}) {
@@ -18,6 +22,7 @@ export default class PopupWithForm extends Popup {
             if (el !== undefined) {
                 el.value = data[key];
             }
+            this._formValidator.revalidate();
         });
 
         super.open();

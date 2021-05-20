@@ -15,11 +15,11 @@ const userInfo = new UserInfo('.profile__name', '.profile__about');
 
 const cardPopup = new PopupWithForm('.popup_type_add-card', cardFormSubmitHandler);
 cardPopup.setEventListeners();
-cardPopup.setFormValidator(new FormValidator(formValidatorSettings));
+cardPopup.setFormValidator(new FormValidator(formValidatorSettings, cardPopup.getForm()));
 
 const profilePopup = new PopupWithForm('.popup_type_edit-profile', profileFormSubmitHandler);
 profilePopup.setEventListeners();
-profilePopup.setFormValidator(new FormValidator(formValidatorSettings));
+profilePopup.setFormValidator(new FormValidator(formValidatorSettings, profilePopup.getForm()));
 
 const popupImage = new PopupWithImage('.popup_type_picture');
 popupImage.setEventListeners();
@@ -35,8 +35,8 @@ function profileFormSubmitHandler({ name, about }) {
     profilePopup.close();
 }
 
-function cardFormSubmitHandler({ name, link }) {
-    pictureListSection.addItem({ name: name, link: link });
+function cardFormSubmitHandler(cardData) {
+    pictureListSection.addItem(cardData);
     cardPopup.close();
 }
 
