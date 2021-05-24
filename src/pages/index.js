@@ -56,22 +56,35 @@ api.getInitialCards().then(cards => {
     .catch(err => console.log(err));
 
 function profileFormSubmitHandler({ name, about }) {
+    profilePopup.renderLoading(true);
     api.patchUserInfo(name, about)
         .then(data => userInfo.setUserInfo(data._id, data.name, data.about, data.avatar))
-        .finally(_ => profilePopup.close());
+        .finally(_ => {
+            profilePopup.renderLoading(false);
+            profilePopup.close();
+        });
 }
 
 function avatarFormSubmitHandler({ avatar }) {
+    popupAvatar.renderLoading(true);
     api.patchUserAvatar(avatar)
         .then(data => userInfo.setUserInfo(data._id, data.name, data.about, data.avatar))
-        .finally(_ => popupAvatar.close());
+        .finally(_ => {
+            popupAvatar.renderLoading(false);
+            popupAvatar.close();
+        });
 }
 
 function cardFormSubmitHandler(cardData) {
+    cardPopup.renderLoading(true);
+
     api.postCard(cardData.name, cardData.link)
         .then(data => pictureListSection.addItem(data))
         .catch(err => console.log(err))
-        .finally(_ => cardPopup.close());
+        .finally(_ => {
+            cardPopup.renderLoading(false);
+            cardPopup.close();
+        });
 }
 
 function getNewCard(data) {

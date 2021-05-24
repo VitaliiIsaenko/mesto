@@ -5,6 +5,8 @@ export default class PopupWithForm extends Popup {
         super(popupSelector);
         this._formSubmitHanlder = formSubmitHanlder;
         this._form = this._popupElement.querySelector('.form');
+        this._submit = this._popupElement.querySelector('.form__submit');
+        this._submitText = this._submit.textContent;
     }
 
     setFormValidator(formValidator) {
@@ -52,5 +54,13 @@ export default class PopupWithForm extends Popup {
             this._formValidator.toggleButtonState();
         }
         super.close();
+    }
+
+    renderLoading(isLoading) {
+        if (isLoading) {
+            this._submit.textContent = 'Сохранение...';
+        } else {
+            this._submit.textContent = this._submitText;
+        }
     }
 }
