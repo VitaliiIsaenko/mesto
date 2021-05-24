@@ -20,6 +20,7 @@ const api = new Api({
 const profile = document.querySelector('.profile');
 const profileEditButton = profile.querySelector('.profile__edit');
 const cardAddButton = profile.querySelector('.profile__add');
+const avatarEditButton = profile.querySelector('.profile__avatar-edit');
 
 const userInfo = new UserInfo('.profile__name', '.profile__about', '.profile__avatar');
 api.getUserInfo().then(result => userInfo.setUserInfo(result._id, result.name, result.about, result.avatar))
@@ -39,7 +40,9 @@ popupImage.setEventListeners();
 const popupConfirm = new PopupWithSubmit('.popup_type_approve');
 popupConfirm.setEventListeners();
 
-const popupAvatar = new PopupWithForm('popup_type_edit-avatar', avatarFormSubmitHandler);
+const popupAvatar = new PopupWithForm('.popup_type_edit-avatar', avatarFormSubmitHandler);
+popupAvatar.setEventListeners();
+popupAvatar.setFormValidator(new FormValidator(formValidatorSettings, popupAvatar.getForm()));
 
 let pictureListSection = null;
 
@@ -100,6 +103,10 @@ function getNewCard(data) {
     ).generateCard();
     return card;
 }
+
+avatarEditButton.addEventListener('click', () => {
+    popupAvatar.open(userInfo.getUserInfo());
+})
 
 profileEditButton.addEventListener('click', () => {
     profilePopup.open(userInfo.getUserInfo())
