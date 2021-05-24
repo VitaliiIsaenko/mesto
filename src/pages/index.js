@@ -102,14 +102,12 @@ function getNewCard(data) {
         (like) => {
             api.likeCard(data._id)
                 .then(data => {
-                    console.log(data);
                     like(data.likes.length);
                 });
         },
         (dislike) => {
             api.dislikeCard(data._id)
                 .then(data => {
-                    console.log(data);
                     dislike(data.likes.length);
                 });
         }

@@ -11,8 +11,6 @@ export default class Card {
         this._cardDislikeHanlder = cardDislikeHanlder;
 
         this._isLiked = data.likes.some(l => l._id == currentUserId);
-        console.log(data.likes)
-        console.log(this._isLiked);
     }
 
     _getTemplate() {
