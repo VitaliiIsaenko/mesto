@@ -3,7 +3,7 @@ import Section from '../components/Section.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import UserInfo from "../components/UserInfo.js";
-import { initialCards, formValidatorSettings } from "../utils/constants.js";
+import { formValidatorSettings } from "../utils/constants.js";
 import FormValidator from "../components/FormValidator.js";
 import './index.css';
 import Api from "../utils/Api.js";
@@ -20,8 +20,8 @@ const profile = document.querySelector('.profile');
 const profileEditButton = profile.querySelector('.profile__edit');
 const cardAddButton = profile.querySelector('.profile__add');
 
-const userInfo = new UserInfo('.profile__name', '.profile__about');
-api.getUserInfo().then(result => userInfo.setUserInfo(result.name, result.about));
+const userInfo = new UserInfo('.profile__name', '.profile__about', '.profile__avatar');
+api.getUserInfo().then(result => userInfo.setUserInfo(result.name, result.about, result.avatar));
 
 const cardPopup = new PopupWithForm('.popup_type_add-card', cardFormSubmitHandler);
 cardPopup.setEventListeners();
