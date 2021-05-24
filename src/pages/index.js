@@ -39,6 +39,8 @@ popupImage.setEventListeners();
 const popupConfirm = new PopupWithSubmit('.popup_type_approve');
 popupConfirm.setEventListeners();
 
+const popupAvatar = new PopupWithForm('popup_type_edit-avatar', avatarFormSubmitHandler);
+
 let pictureListSection = null;
 
 api.getInitialCards().then(cards => {
@@ -53,8 +55,13 @@ api.getInitialCards().then(cards => {
 function profileFormSubmitHandler({ name, about }) {
     api.patchUserInfo(name, about)
         .then(data => userInfo.setUserInfo(data._id, data.name, data.about, data.avatar))
-        .catch(err => console.log(err))
         .finally(_ => profilePopup.close());
+}
+
+function avatarFormSubmitHandler({ avatar }) {
+    api.patchUserAvatar(avatar)
+        .then(data => userInfo.setUserInfo(data._id, data.name, data.about, data.avatar))
+        .finally(_ => popupAvatar.close());
 }
 
 function cardFormSubmitHandler(cardData) {
