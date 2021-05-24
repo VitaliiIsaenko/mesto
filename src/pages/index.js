@@ -65,21 +65,31 @@ function cardFormSubmitHandler(cardData) {
 }
 
 function getNewCard(data) {
-    console.log(userInfo);
     const card = new Card(data, '#picture-template',
         userInfo.getUserInfo().id,
         () => popupImage.open(data.name, data.link),
-        () => {
+        (removeElement) => {
             popupConfirm.open(() => {
                 api.removeCard(data._id)
                     .then(_ => {
-                        console.log('heeeey');
-                        card.remove();
-                    })
-                    .catch(err => console.log(err));
+                        removeElement();
+                    });
             });
+        },
+        (like) => {
+            api.likeCard(data._id)
+                .then(data => {
+                    console.log(data);
+                    like(data.likes.length);
+                });
+        },
+        (dislike) => {
+            api.dislikeCard(data._id)
+                .then(data => {
+                    console.log(data);
+                    dislike(data.likes.length);
+                });
         }
-
     ).generateCard();
     return card;
 }

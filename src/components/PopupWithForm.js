@@ -19,7 +19,6 @@ export default class PopupWithForm extends Popup {
     open(data = {}) {
         Object.keys(data).forEach(key => {
             const el = this._form.querySelector(`.form__input[name='${key}']`);
-            console.log(el);
             if (el !== null) {
                 el.value = data[key];
             }
