@@ -7,6 +7,7 @@ import { formValidatorSettings } from "../utils/constants.js";
 import FormValidator from "../components/FormValidator.js";
 import './index.css';
 import Api from "../utils/Api.js";
+import PopupWithSubmit from '../components/PopupWithSubmit.js';
 
 const api = new Api({
     baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-24',
@@ -35,11 +36,12 @@ profilePopup.setFormValidator(new FormValidator(formValidatorSettings, profilePo
 const popupImage = new PopupWithImage('.popup_type_picture');
 popupImage.setEventListeners();
 
+const popupConfirm = new PopupWithSubmit('.popup_type_approve');
+popupConfirm.setEventListeners();
+
 let pictureListSection = null;
 
 api.getInitialCards().then(cards => {
-        cards.forEach(c => c.likesCount = c.likes.length);
-        console.log(cards);
         pictureListSection = new Section({
             items: cards,
             renderer: (el) => getNewCard(el)
@@ -50,24 +52,40 @@ api.getInitialCards().then(cards => {
 
 function profileFormSubmitHandler({ name, about }) {
     api.patchUserInfo(name, about)
-        .then(_ => userInfo.setUserInfo(name, about))
+        .then(data => userInfo.setUserInfo(data.name, data.about, data.avatar))
         .catch(err => console.log(err))
         .finally(_ => profilePopup.close());
 }
 
 function cardFormSubmitHandler(cardData) {
     api.postCard(cardData.name, cardData.link)
-        .then(_ => pictureListSection.addItem(cardData))
+        .then(data => pictureListSection.addItem(data))
         .catch(err => console.log(err))
         .finally(_ => cardPopup.close());
-
-
 }
 
+// function approveHandler({ id }) {
+//     // remove card
+// }
+
 function getNewCard(data) {
-    console.log(data);
     const card = new Card(data, '#picture-template',
-        () => popupImage.open(data.name, data.link)).generateCard();
+        // cardRemoveHandler, approveRemove
+        () => popupImage.open(data.name, data.link),
+        () => {
+            popupConfirm.open(() => {
+                api.removeCard(data._id)
+                    .then(_ => {
+                        console.log('heeeey');
+                        card.remove();
+                    })
+                    .catch(err => console.log(err));
+            });
+
+            // return;
+        }
+
+    ).generateCard();
     return card;
 }
 

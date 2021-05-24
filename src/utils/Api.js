@@ -36,7 +36,10 @@ export default class Api {
                     "avatar": data.avatar
                 };
             })
-            .catch(err => console.log(err));
+            .catch(err => {
+                console.log(err);
+                return Promise.reject(err)
+            });
     }
 
     patchUserInfo(name, about) {
@@ -57,7 +60,10 @@ export default class Api {
             .then(data => {
                 return data;
             })
-            .catch(err => console.log(err));
+            .catch(err => {
+                console.log(err);
+                return Promise.reject(err)
+            });
     }
 
     postCard(name, link) {
@@ -75,6 +81,26 @@ export default class Api {
                 }
                 return Promise.reject("Adding a card failed")
             })
-            .catch(err => console.log(err));
+            .catch(err => {
+                console.log(err);
+                return Promise.reject(err)
+            });
+    }
+
+    removeCard(id) {
+        return fetch(`${this._baseUrl}/cards/${id}`, {
+                headers: this._headers,
+                method: 'DELETE'
+            })
+            .then(result => {
+                if (result.ok) {
+                    return result.json();
+                }
+                return Promise.reject("Deleting a card failed")
+            })
+            .catch(err => {
+                console.log(err);
+                return Promise.reject(err)
+            });
     }
 }

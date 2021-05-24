@@ -17,14 +17,15 @@ export default class PopupWithForm extends Popup {
     }
 
     open(data = {}) {
-        console.log(data);
         Object.keys(data).forEach(key => {
             const el = this._form.querySelector(`.form__input[name='${key}']`);
             console.log(el);
             if (el !== null) {
                 el.value = data[key];
             }
-            this._formValidator.revalidate();
+            if (this._formValidator) {
+                this._formValidator.revalidate();
+            }
         });
 
         super.open();

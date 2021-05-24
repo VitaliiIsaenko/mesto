@@ -1,11 +1,11 @@
 export default class Card {
-    constructor(data, selector, handleCardClick) {
+    constructor(data, selector, handleCardClick, cardRemoveHandler) {
         this._text = data.name;
         this._image = data.link;
-        console.log(data);
-        this._likesCount = data.likesCount;
+        this._likesCount = data.likes.length;
         this._selector = selector;
         this._handleCardClick = handleCardClick;
+        this._cardRemoveHanlder = cardRemoveHandler;
     }
 
     _getTemplate() {
@@ -52,6 +52,10 @@ export default class Card {
     }
 
     _handleRemoveClick() {
-        this._element.remove()
+        this._cardRemoveHanlder();
+    }
+
+    remove() {
+        this._element.remove();
     }
 }
