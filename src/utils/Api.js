@@ -17,7 +17,6 @@ export default class Api {
             .then(data => {
                 return data;
             })
-            .catch(err => console.log(err));
     }
 
     getUserInfo() {
@@ -36,6 +35,45 @@ export default class Api {
                     "about": data.about,
                     "avatar": data.avatar
                 };
+            })
+            .catch(err => console.log(err));
+    }
+
+    patchUserInfo(name, about) {
+        return fetch(`${this._baseUrl}/users/me`, {
+                headers: this._headers,
+                method: 'PATCH',
+                body: JSON.stringify({
+                    name,
+                    about
+                })
+            })
+            .then(result => {
+                if (result.ok) {
+                    return result.json();
+                }
+                return Promise.reject("User info patch failed");
+            })
+            .then(data => {
+                return data;
+            })
+            .catch(err => console.log(err));
+    }
+
+    postCard(name, link) {
+        return fetch(`${this._baseUrl}/cards`, {
+                headers: this._headers,
+                method: 'POST',
+                body: JSON.stringify({
+                    name,
+                    link
+                })
+            })
+            .then(result => {
+                if (result.ok) {
+                    return result.json();
+                }
+                return Promise.reject("Adding a card failed")
             })
             .catch(err => console.log(err));
     }

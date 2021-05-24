@@ -41,6 +41,8 @@
 @import url(../blocks/pictures/__item-name/pictures__item-name.css);
 @import url(../blocks/pictures/__item-photo/pictures__item-photo.css);
 @import url(../blocks/pictures/__item-remove/pictures__item-remove.css);
+@import url(../blocks/pictures/__item-like-area/pictures__item-like-area.css);
+@import url(../blocks/pictures/__item-likes-count/pictures__item-likes-count.css);
 
 /* footer */
 

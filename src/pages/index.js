@@ -21,7 +21,8 @@ const profileEditButton = profile.querySelector('.profile__edit');
 const cardAddButton = profile.querySelector('.profile__add');
 
 const userInfo = new UserInfo('.profile__name', '.profile__about', '.profile__avatar');
-api.getUserInfo().then(result => userInfo.setUserInfo(result.name, result.about, result.avatar));
+api.getUserInfo().then(result => userInfo.setUserInfo(result.name, result.about, result.avatar))
+    .catch(err => console.log(err));
 
 const cardPopup = new PopupWithForm('.popup_type_add-card', cardFormSubmitHandler);
 cardPopup.setEventListeners();
@@ -34,28 +35,39 @@ profilePopup.setFormValidator(new FormValidator(formValidatorSettings, profilePo
 const popupImage = new PopupWithImage('.popup_type_picture');
 popupImage.setEventListeners();
 
+let pictureListSection = null;
+
 api.getInitialCards().then(cards => {
-    console.log(cards);
-    const pictureListSection = new Section({
-        items: cards,
-        renderer: (el) => getNewCard(el.name, el.link)
-    }, '.pictures__list ');
-    pictureListSection.render();
-});
+        cards.forEach(c => c.likesCount = c.likes.length);
+        console.log(cards);
+        pictureListSection = new Section({
+            items: cards,
+            renderer: (el) => getNewCard(el)
+        }, '.pictures__list ');
+        pictureListSection.render();
+    })
+    .catch(err => console.log(err));
 
 function profileFormSubmitHandler({ name, about }) {
-    userInfo.setUserInfo(name, about);
-    profilePopup.close();
+    api.patchUserInfo(name, about)
+        .then(_ => userInfo.setUserInfo(name, about))
+        .catch(err => console.log(err))
+        .finally(_ => profilePopup.close());
 }
 
 function cardFormSubmitHandler(cardData) {
-    pictureListSection.addItem(cardData);
-    cardPopup.close();
+    api.postCard(cardData.name, cardData.link)
+        .then(_ => pictureListSection.addItem(cardData))
+        .catch(err => console.log(err))
+        .finally(_ => cardPopup.close());
+
+
 }
 
-function getNewCard(name, link) {
-    const card = new Card({ name, link }, '#picture-template',
-        () => popupImage.open(name, link)).generateCard();
+function getNewCard(data) {
+    console.log(data);
+    const card = new Card(data, '#picture-template',
+        () => popupImage.open(data.name, data.link)).generateCard();
     return card;
 }
 
