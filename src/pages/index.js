@@ -6,12 +6,22 @@ import UserInfo from "../components/UserInfo.js";
 import { initialCards, formValidatorSettings } from "../utils/constants.js";
 import FormValidator from "../components/FormValidator.js";
 import './index.css';
+import Api from "../utils/Api.js";
+
+const api = new Api({
+    baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-24',
+    headers: {
+        authorization: '95c85b95-3cb8-4962-9069-374e5b282358',
+        'Content-Type': 'application/json'
+    }
+})
 
 const profile = document.querySelector('.profile');
 const profileEditButton = profile.querySelector('.profile__edit');
 const cardAddButton = profile.querySelector('.profile__add');
 
 const userInfo = new UserInfo('.profile__name', '.profile__about');
+api.getUserInfo().then(result => userInfo.setUserInfo(result.name, result.about));
 
 const cardPopup = new PopupWithForm('.popup_type_add-card', cardFormSubmitHandler);
 cardPopup.setEventListeners();
@@ -24,11 +34,14 @@ profilePopup.setFormValidator(new FormValidator(formValidatorSettings, profilePo
 const popupImage = new PopupWithImage('.popup_type_picture');
 popupImage.setEventListeners();
 
-const pictureListSection = new Section({
-    items: initialCards,
-    renderer: (el) => getNewCard(el.name, el.link)
-}, '.pictures__list ');
-pictureListSection.render();
+api.getInitialCards().then(cards => {
+    console.log(cards);
+    const pictureListSection = new Section({
+        items: cards,
+        renderer: (el) => getNewCard(el.name, el.link)
+    }, '.pictures__list ');
+    pictureListSection.render();
+});
 
 function profileFormSubmitHandler({ name, about }) {
     userInfo.setUserInfo(name, about);
