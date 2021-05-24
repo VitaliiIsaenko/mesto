@@ -1,5 +1,6 @@
 export default class Card {
-    constructor(data, selector, handleCardClick, cardRemoveHandler) {
+    constructor(data, selector, currentUserId, handleCardClick, cardRemoveHandler) {
+        this._ownCard = currentUserId === data.owner._id;
         this._text = data.name;
         this._image = data.link;
         this._likesCount = data.likes.length;
@@ -26,6 +27,11 @@ export default class Card {
         this._removeButton = this._element.querySelector('.pictures__item-remove');
         this._likesCounter = this._element.querySelector('.pictures__item-likes-count');
 
+        if (!this._ownCard) {
+            this._removeButton.remove();
+            this._removeButton = null;
+        }
+
         this._setEventListeners();
 
         this._imageElement.src = this._image;
@@ -40,8 +46,10 @@ export default class Card {
         this._likeButton
             .addEventListener('click', () => this._handleLikeClick());
 
-        this._removeButton
-            .addEventListener('click', () => this._handleRemoveClick());
+        if (this._ownCard) {
+            this._removeButton
+                .addEventListener('click', () => this._handleRemoveClick());
+        }
 
         this._imageElement
             .addEventListener('click', () => this._handleCardClick());
@@ -56,6 +64,8 @@ export default class Card {
     }
 
     remove() {
-        this._element.remove();
+        if (this._ownCard) {
+            this._element.remove();
+        }
     }
 }

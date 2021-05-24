@@ -29,13 +29,6 @@ export default class Api {
                 }
                 return Promise.reject("User info fetching failed");
             })
-            .then(data => {
-                return {
-                    "name": data.name,
-                    "about": data.about,
-                    "avatar": data.avatar
-                };
-            })
             .catch(err => {
                 console.log(err);
                 return Promise.reject(err)

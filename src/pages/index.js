@@ -22,7 +22,7 @@ const profileEditButton = profile.querySelector('.profile__edit');
 const cardAddButton = profile.querySelector('.profile__add');
 
 const userInfo = new UserInfo('.profile__name', '.profile__about', '.profile__avatar');
-api.getUserInfo().then(result => userInfo.setUserInfo(result.name, result.about, result.avatar))
+api.getUserInfo().then(result => userInfo.setUserInfo(result._id, result.name, result.about, result.avatar))
     .catch(err => console.log(err));
 
 const cardPopup = new PopupWithForm('.popup_type_add-card', cardFormSubmitHandler);
@@ -52,7 +52,7 @@ api.getInitialCards().then(cards => {
 
 function profileFormSubmitHandler({ name, about }) {
     api.patchUserInfo(name, about)
-        .then(data => userInfo.setUserInfo(data.name, data.about, data.avatar))
+        .then(data => userInfo.setUserInfo(data._id, data.name, data.about, data.avatar))
         .catch(err => console.log(err))
         .finally(_ => profilePopup.close());
 }
@@ -64,13 +64,10 @@ function cardFormSubmitHandler(cardData) {
         .finally(_ => cardPopup.close());
 }
 
-// function approveHandler({ id }) {
-//     // remove card
-// }
-
 function getNewCard(data) {
+    console.log(userInfo);
     const card = new Card(data, '#picture-template',
-        // cardRemoveHandler, approveRemove
+        userInfo.getUserInfo().id,
         () => popupImage.open(data.name, data.link),
         () => {
             popupConfirm.open(() => {
@@ -81,8 +78,6 @@ function getNewCard(data) {
                     })
                     .catch(err => console.log(err));
             });
-
-            // return;
         }
 
     ).generateCard();
