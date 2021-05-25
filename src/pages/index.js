@@ -23,7 +23,17 @@ const cardAddButton = profile.querySelector('.profile__add');
 const avatarEditButton = profile.querySelector('.profile__avatar-edit');
 
 const userInfo = new UserInfo('.profile__name', '.profile__about', '.profile__avatar');
-api.getUserInfo().then(result => userInfo.setUserInfo(result._id, result.name, result.about, result.avatar))
+let pictureListSection = null;
+
+Promise.all([api.getUserInfo(), api.getInitialCards()]).then(([user, cards]) => {
+        userInfo.setUserInfo(user._id, user.name, user.about, user.avatar);
+
+        pictureListSection = new Section({
+            items: cards,
+            renderer: getNewCard
+        }, '.pictures__list ');
+        pictureListSection.render();
+    })
     .catch(err => console.log(err));
 
 const cardPopup = new PopupWithForm('.popup_type_add-card', cardFormSubmitHandler);
@@ -44,17 +54,6 @@ const popupAvatar = new PopupWithForm('.popup_type_edit-avatar', avatarFormSubmi
 popupAvatar.setEventListeners();
 popupAvatar.setFormValidator(new FormValidator(formValidatorSettings, popupAvatar.getForm()));
 
-let pictureListSection = null;
-
-api.getInitialCards().then(cards => {
-        pictureListSection = new Section({
-            items: cards,
-            renderer: getNewCard
-        }, '.pictures__list ');
-        pictureListSection.render();
-    })
-    .catch(err => console.log(err));
-
 function profileFormSubmitHandler({ name, about }) {
     profilePopup.renderLoading(true);
     api.patchUserInfo(name, about)
@@ -73,7 +72,7 @@ function avatarFormSubmitHandler({ avatar }) {
     api.patchUserAvatar(avatar)
         .then(data => {
             userInfo.setUserInfo(data._id, data.name, data.about, data.avatar);
-            profilePopup.close();
+            popupAvatar.close();
         })
         .catch(err => console.log(err))
         .finally(_ => {
