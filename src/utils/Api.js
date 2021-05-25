@@ -8,35 +8,14 @@ export default class Api {
         return fetch(`${this._baseUrl}/cards`, {
                 headers: this._headers
             })
-            .then(result => {
-                if (result.ok) {
-                    return result.json();
-                }
-                return Promise.reject("Cards fetching failed");
-            })
-            .then(data => {
-                return data;
-            })
-            .catch(err => {
-                console.log(err);
-                return Promise.reject(err)
-            });
+            .then(this._checkResponse);
     }
 
     getUserInfo() {
         return fetch(`${this._baseUrl}/users/me`, {
                 headers: this._headers
             })
-            .then(result => {
-                if (result.ok) {
-                    return result.json();
-                }
-                return Promise.reject("User info fetching failed");
-            })
-            .catch(err => {
-                console.log(err);
-                return Promise.reject(err)
-            });
+            .then(this._checkResponse);
     }
 
     patchUserInfo(name, about) {
@@ -48,19 +27,7 @@ export default class Api {
                     about
                 })
             })
-            .then(result => {
-                if (result.ok) {
-                    return result.json();
-                }
-                return Promise.reject("User info patch failed");
-            })
-            .then(data => {
-                return data;
-            })
-            .catch(err => {
-                console.log(err);
-                return Promise.reject(err)
-            });
+            .then(this._checkResponse);
     }
 
     patchUserAvatar(avatar) {
@@ -71,19 +38,7 @@ export default class Api {
                     avatar
                 })
             })
-            .then(result => {
-                if (result.ok) {
-                    return result.json();
-                }
-                return Promise.reject("User avatar patch failed");
-            })
-            .then(data => {
-                return data;
-            })
-            .catch(err => {
-                console.log(err);
-                return Promise.reject(err)
-            });
+            .then(this._checkResponse);
     }
 
     postCard(name, link) {
@@ -95,16 +50,7 @@ export default class Api {
                     link
                 })
             })
-            .then(result => {
-                if (result.ok) {
-                    return result.json();
-                }
-                return Promise.reject("Adding a card failed")
-            })
-            .catch(err => {
-                console.log(err);
-                return Promise.reject(err)
-            });
+            .then(this._checkResponse);
     }
 
     removeCard(id) {
@@ -112,16 +58,7 @@ export default class Api {
                 headers: this._headers,
                 method: 'DELETE'
             })
-            .then(result => {
-                if (result.ok) {
-                    return result.json();
-                }
-                return Promise.reject("Deleting a card failed")
-            })
-            .catch(err => {
-                console.log(err);
-                return Promise.reject(err)
-            });
+            .then(this._checkResponse);
     }
 
     likeCard(id) {
@@ -129,16 +66,7 @@ export default class Api {
                 headers: this._headers,
                 method: 'PUT'
             })
-            .then(result => {
-                if (result.ok) {
-                    return result.json();
-                }
-                return Promise.reject("Liking a card failed");
-            })
-            .catch(err => {
-                console.log(err);
-                return Promise.reject(err)
-            });
+            .then(this._checkResponse);
     }
 
     dislikeCard(id) {
@@ -146,15 +74,13 @@ export default class Api {
                 headers: this._headers,
                 method: 'DELETE'
             })
-            .then(result => {
-                if (result.ok) {
-                    return result.json();
-                }
-                return Promise.reject("Disliking a card failed");
-            })
-            .catch(err => {
-                console.log(err);
-                return Promise.reject(err)
-            });
+            .then(this._checkResponse);
+    }
+
+    _checkResponse(result) {
+        if (result.ok) {
+            return result.json();
+        }
+        return Promise.reject("API returned an error");
     }
 }

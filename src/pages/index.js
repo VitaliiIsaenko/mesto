@@ -49,7 +49,7 @@ let pictureListSection = null;
 api.getInitialCards().then(cards => {
         pictureListSection = new Section({
             items: cards,
-            renderer: (el) => getNewCard(el)
+            renderer: getNewCard
         }, '.pictures__list ');
         pictureListSection.render();
     })
@@ -58,20 +58,26 @@ api.getInitialCards().then(cards => {
 function profileFormSubmitHandler({ name, about }) {
     profilePopup.renderLoading(true);
     api.patchUserInfo(name, about)
-        .then(data => userInfo.setUserInfo(data._id, data.name, data.about, data.avatar))
+        .then(data => {
+            userInfo.setUserInfo(data._id, data.name, data.about, data.avatar);
+            profilePopup.close();
+        })
+        .catch(err => console.log(err))
         .finally(_ => {
             profilePopup.renderLoading(false);
-            profilePopup.close();
         });
 }
 
 function avatarFormSubmitHandler({ avatar }) {
     popupAvatar.renderLoading(true);
     api.patchUserAvatar(avatar)
-        .then(data => userInfo.setUserInfo(data._id, data.name, data.about, data.avatar))
+        .then(data => {
+            userInfo.setUserInfo(data._id, data.name, data.about, data.avatar);
+            profilePopup.close();
+        })
+        .catch(err => console.log(err))
         .finally(_ => {
             popupAvatar.renderLoading(false);
-            popupAvatar.close();
         });
 }
 
@@ -79,11 +85,13 @@ function cardFormSubmitHandler(cardData) {
     cardPopup.renderLoading(true);
 
     api.postCard(cardData.name, cardData.link)
-        .then(data => pictureListSection.addItem(data))
+        .then(data => {
+            pictureListSection.addItem(data);
+            cardPopup.close();
+        })
         .catch(err => console.log(err))
         .finally(_ => {
             cardPopup.renderLoading(false);
-            cardPopup.close();
         });
 }
 
@@ -93,10 +101,13 @@ function getNewCard(data) {
         () => popupImage.open(data.name, data.link),
         (removeElement) => {
             popupConfirm.open(() => {
+                popupConfirm.renderLoading(true);
                 api.removeCard(data._id)
                     .then(_ => {
                         removeElement();
-                    });
+                        popupConfirm.close();
+                    })
+                    .finally(_ => popupConfirm.renderLoading(false));
             });
         },
         (like) => {
@@ -116,7 +127,7 @@ function getNewCard(data) {
 }
 
 avatarEditButton.addEventListener('click', () => {
-    popupAvatar.open(userInfo.getUserInfo());
+    popupAvatar.open();
 })
 
 profileEditButton.addEventListener('click', () => {
