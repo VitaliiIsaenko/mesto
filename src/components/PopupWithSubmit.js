@@ -23,7 +23,7 @@ export default class PopupWithSubmit extends Popup {
         super.setEventListeners();
     }
 
-    renderLoading(isLoading, loadingText = 'Сохранение...') {
+    renderLoading(isLoading, loadingText = 'Удаление...') {
         if (isLoading) {
             this._submit.textContent = loadingText;
         } else {

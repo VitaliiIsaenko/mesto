@@ -106,6 +106,7 @@ function getNewCard(data) {
                         removeElement();
                         popupConfirm.close();
                     })
+                    .catch(err => console.log(err))
                     .finally(_ => popupConfirm.renderLoading(false));
             });
         },
@@ -113,13 +114,15 @@ function getNewCard(data) {
             api.likeCard(data._id)
                 .then(data => {
                     like(data.likes.length);
-                });
+                })
+                .catch(err => console.log(err));
         },
         (dislike) => {
             api.dislikeCard(data._id)
                 .then(data => {
                     dislike(data.likes.length);
-                });
+                })
+                .catch(err => console.log(err));
         }
     ).generateCard();
     return card;
